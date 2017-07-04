@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="700.0" prefWidth="925.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentacion.PlanillaMovimientosController">
+   <children>
+      <Label fx:id="lblMovimientos" layoutX="26.0" layoutY="15.0" text="Movimientos">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <TableView fx:id="tablaMovimientos" layoutX="21.0" layoutY="51.0" onMouseClicked="#seleccionarMovimiento" prefHeight="259.0" prefWidth="510.0">
+        <columns>
+          <TableColumn fx:id="iColFecha" prefWidth="81.0" text="Fecha" />
+            <TableColumn fx:id="iColIdRubro" prefWidth="22.0" text="Id " />
+            <TableColumn fx:id="iColRubro" prefWidth="143.0" text="Cliente" />
+            <TableColumn fx:id="iColDescripcion" prefWidth="154.0" text="Descripción" />
+            <TableColumn fx:id="iColMonto" prefWidth="92.0" text="Monto" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnIActualizar" layoutX="342.0" layoutY="20.0" mnemonicParsing="false" onAction="#actualizarMovimientos" prefHeight="25.0" prefWidth="182.0" text="Actualizar-Mostrar todos" />
+      <TableView fx:id="tablaRubros" layoutX="596.0" layoutY="166.0" onMouseClicked="#seleccionarRubro" prefHeight="188.0" prefWidth="211.0">
+        <columns>
+          <TableColumn fx:id="cColId" prefWidth="31.0" text="Id" />
+          <TableColumn fx:id="cColNombre" prefWidth="168.0" text="Nombre" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnCActualizar" layoutX="626.0" layoutY="70.0" mnemonicParsing="false" onAction="#actualizarRubros" text="Actualizar-Mostrar Todos" />
+      <Label fx:id="lblRubros" layoutX="657.0" layoutY="28.0" text="Rubros">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="572.0" layoutY="122.0" text="Buscar " />
+      <TextField fx:id="tfCNombre" layoutX="620.0" layoutY="118.0" onKeyPressed="#buscarRubroNombreK" />
+      <Button fx:id="btnCFiltrar" layoutX="783.0" layoutY="118.0" mnemonicParsing="false" onAction="#buscarRubroNombre" text="Buscar" />
+      <Label layoutX="301.0" layoutY="320.0" text="Total: ">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSuma" layoutX="381.0" layoutY="320.0" prefHeight="32.0" prefWidth="126.0" textFill="#0009ff">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="apBusqueda" layoutX="26.0" layoutY="371.0" prefHeight="313.0" prefWidth="500.0" style="-fx-background-color: #99c2ff;">
+         <children>
+            <Label layoutX="17.0" layoutY="14.0" text="Buscar:">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="22.0" layoutY="68.0" text="Por descripción:" />
+            <TextField fx:id="tfFDescripcion" layoutX="140.0" layoutY="64.0" />
+            <Label layoutX="22.0" layoutY="105.0" text="Por rubro (seleccionar)" />
+            <Label layoutX="21.0" layoutY="148.0" text="Por fechas entre:" />
+            <TextField fx:id="tfFFechaInicio" layoutX="116.0" layoutY="144.0" prefHeight="22.0" prefWidth="83.0" />
+            <TextField fx:id="tfFFechaFin" layoutX="260.0" layoutY="144.0" prefHeight="22.0" prefWidth="83.0" />
+            <DatePicker fx:id="dpFInicio" layoutX="187.0" layoutY="144.0" onAction="#fSeleccionarFechaInicio" prefHeight="22.0" prefWidth="45.0" />
+            <DatePicker fx:id="dpFFin" layoutX="333.0" layoutY="144.0" onAction="#fSeleccionarFechaFin" prefHeight="22.0" prefWidth="40.0" />
+            <Button fx:id="btnFLimpiar" layoutX="90.0" layoutY="228.0" mnemonicParsing="false" onAction="#fLimpiarCampos" text="Limpiar campos" />
+            <TextField fx:id="tfFRubro" layoutX="162.0" layoutY="101.0" />
+            <CheckBox fx:id="cbDescripcion" layoutX="333.0" layoutY="68.0" mnemonicParsing="false" />
+            <CheckBox fx:id="cbRubro" layoutX="333.0" layoutY="105.0" mnemonicParsing="false" />
+            <CheckBox fx:id="cbFechas" layoutX="403.0" layoutY="148.0" mnemonicParsing="false" />
+            <Button fx:id="btnBuscar" layoutX="286.0" layoutY="228.0" mnemonicParsing="false" onAction="#buscar" text="Buscar" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apDatos" layoutX="561.0" layoutY="371.0" prefHeight="313.0" prefWidth="314.0" style="-fx-background-color: #99c2ff;">
+         <children>
+            <Button fx:id="btnAgregarMovimiento" layoutX="24.0" layoutY="180.0" mnemonicParsing="false" onAction="#agregarMovimiento" text="Agregar " />
+            <Button fx:id="btnEditarMovimiento" layoutX="120.0" layoutY="180.0" mnemonicParsing="false" onAction="#editarMovimiento" text="Editar " />
+            <Button fx:id="btnEliminarMovimiento" layoutX="25.0" layoutY="222.0" mnemonicParsing="false" onAction="#eliminarMovimiento" text="Eliminar " />
+            <Button fx:id="btnLimpiarCampos" layoutX="120.0" layoutY="222.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar campos" />
+            <TextField fx:id="tfRubro" layoutX="95.0" layoutY="25.0" />
+            <TextField fx:id="tfFecha" layoutX="95.0" layoutY="65.0" prefHeight="22.0" prefWidth="100.0" />
+            <TextField fx:id="tfDescripcion" layoutX="95.0" layoutY="102.0" onKeyPressed="#bajarDescripcion" />
+            <TextField fx:id="tfMonto" layoutX="95.0" layoutY="136.0" onKeyPressed="#agregarMovimientoK" />
+            <Label layoutX="22.0" layoutY="69.0" text="Fecha" />
+            <Label layoutX="21.0" layoutY="106.0" text="Descripcion" />
+            <Label layoutX="25.0" layoutY="140.0" text="Monto" />
+            <CheckBox fx:id="cbFecha" layoutX="206.0" layoutY="69.0" mnemonicParsing="false" onAction="#ponerFecha" text="Hoy" />
+            <DatePicker fx:id="dpIFecha" layoutX="258.0" layoutY="65.0" onAction="#iSeleccionarFecha" prefHeight="22.0" prefWidth="19.0" />
+            
+                  <Label fx:id="lblRubroAP" layoutX="24.0" layoutY="29.0" text="Rubro" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="librerias/jgoodies-looks-2.4.1.jar"/>
 	<classpathentry kind="lib" path="librerias/junit-4.6.jar"/>
 	<classpathentry kind="lib" path="librerias/ucanaccess-3.0.6.jar"/>
+	<classpathentry kind="lib" path="librerias/jfxrt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

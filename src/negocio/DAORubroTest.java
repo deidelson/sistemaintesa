@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import datos.ConexionAccess;
+import datos.ConexionMaria;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,9 +20,9 @@ public class DAORubroTest
 	ObservableList<Rubro>clientes;
 	
 	@Before
-	public void inicializar()
+	public void inicializar() throws SQLException
 	{
-		daoClientes=new DAORubroImpl(new ConexionAccess("jdbc:ucanaccess://bdMock.accdb").getConnection(), "ClientesMock");
+		daoClientes=new DAORubroImpl(new ConexionMaria().getConexionTest(), "ClientesMock");
 		clientes=FXCollections.observableArrayList();
 	}
 
@@ -94,7 +95,22 @@ public class DAORubroTest
 	{
 		try
 		{
-			Statement	st =  new ConexionAccess("jdbc:ucanaccess://bdMock.accdb").getConnection().createStatement();
+			Statement	st =  new ConexionMaria().getConexionTest().createStatement();
+			st.executeUpdate("DELETE from ClientesMock");
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	@Before
+	public void borrarTodoAntes()
+	{
+		try
+		{
+			Statement	st =  new ConexionMaria().getConexionTest().createStatement();
 			st.executeUpdate("DELETE from ClientesMock");
 		} 
 		catch (SQLException e) 

@@ -332,7 +332,7 @@ public class DAOMovimientoImpl implements DAOMovimiento
 			ResultSet rs = st.executeQuery("SELECT "+tablaMovimiento+".Id, "+tablaMovimiento+".Fecha, "+tablaMovimiento+".Id_Rubro, "
 					+ ""+tablaMovimiento+".Descripcion, "+tablaMovimiento+".Monto, "+tablaRubro+".Nombre FROM "+tablaMovimiento+" inner join "+tablaRubro+" "
 					+ "on "+tablaMovimiento+".Id_Rubro = "+tablaRubro+".Id_Rubro "
-					+ " WHERE Id_Rubro = "+id.toString());
+					+ " WHERE "+tablaRubro+".Id_Rubro = "+id.toString());
 		
 			while(rs.next())
 			{
@@ -459,7 +459,7 @@ public class DAOMovimientoImpl implements DAOMovimiento
 			ResultSet rs = st.executeQuery("SELECT "+tablaMovimiento+".Id, "+tablaMovimiento+".Fecha, "+tablaMovimiento+".Id_Rubro, "
 					+ ""+tablaMovimiento+".Descripcion, "+tablaMovimiento+".Monto, "+tablaRubro+".Nombre FROM "+tablaMovimiento+" inner join "+tablaRubro+" "
 					+ "on "+tablaMovimiento+".Id_Rubro = "+tablaRubro+".Id_Rubro "
-					+ "WHERE Id_Rubro ="+id.toString()+" and Fecha >= '"+fechaInicio+"' and Fecha <= '"+fechaFin+"'");
+					+ "WHERE "+tablaRubro+".Id_Rubro ="+id.toString()+" and Fecha >= '"+fechaInicio+"' and Fecha <= '"+fechaFin+"'");
 		
 			while(rs.next())
 			{
@@ -521,7 +521,7 @@ public class DAOMovimientoImpl implements DAOMovimiento
 			ResultSet rs = st.executeQuery("SELECT "+tablaMovimiento+".Id, "+tablaMovimiento+".Fecha, "+tablaMovimiento+".Id_Rubro, "
 					+ ""+tablaMovimiento+".Descripcion, "+tablaMovimiento+".Monto, "+tablaRubro+".Nombre FROM "+tablaMovimiento+" inner join "+tablaRubro+" "
 					+ "on "+tablaMovimiento+".Id_Rubro = "+tablaRubro+".Id_Rubro "
-					+ "WHERE Id_Rubro ="+id.toString()+" and Descripcion like '%"+descripcion+"%'");
+					+ "WHERE "+tablaRubro+".Id_Rubro ="+id.toString()+" and Descripcion like '%"+descripcion+"%'");
 		
 			while(rs.next())
 			{
@@ -583,7 +583,7 @@ public class DAOMovimientoImpl implements DAOMovimiento
 			ResultSet rs = st.executeQuery("SELECT "+tablaMovimiento+".Id, "+tablaMovimiento+".Fecha, "+tablaMovimiento+".Id_Rubro, "
 					+ ""+tablaMovimiento+".Descripcion, "+tablaMovimiento+".Monto, "+tablaRubro+".Nombre FROM "+tablaMovimiento+" inner join "+tablaRubro+" "
 					+ "on "+tablaMovimiento+".Id_Rubro = "+tablaRubro+".Id_Rubro "
-					+ "WHERE Id_Rubro ="+id.toString()+" and Fecha >= '"+fechaInicio+"' and Fecha <= '"+fechaFin+"' "
+					+ "WHERE "+tablaRubro+".Id_Rubro ="+id.toString()+" and Fecha >= '"+fechaInicio+"' and Fecha <= '"+fechaFin+"' "
 							+ "and Descripcion like '%"+descripcion+"%'");
 		
 			while(rs.next())

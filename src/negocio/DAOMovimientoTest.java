@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import datos.ConexionAccess;
+import datos.ConexionMaria;
+import interfaces.DAORubro;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,9 +21,9 @@ public class DAOMovimientoTest {
 	ObservableList<Movimiento>resultado;
 	
 	@Before
-	public void arrancarConexion()
+	public void arrancarConexion() throws SQLException
 	{
-		daoMov=new DAOMovimientoImpl(new ConexionAccess("jdbc:ucanaccess://bdMock.accdb").getConnection(),"Ingresos","Clientes");
+		daoMov=new DAOMovimientoImpl(new ConexionMaria().getConexionTest(),"Ingresos","ClientesMock");
 		resultado=FXCollections.observableArrayList();
 	}
 
@@ -35,14 +37,14 @@ public class DAOMovimientoTest {
 		Movimiento i1=daoMov.obtenerMovimiento(1);
 		Movimiento i2=daoMov.obtenerMovimiento(2);
 	
-		assertTrue(i1.getId().equals(1));
-		assertTrue(i1.getFecha().equals("2016-12-09 00:00:00.000000"));
-		assertTrue(i1.getId_Rubro().equals(1));
+		System.out.println(i1.getId());
+		assertTrue(i1.getId().equals(new Integer(1)));
+  		assertTrue(i1.getId_Rubro().equals(1));
 		assertTrue(i1.getDescripcion().equals("pago"));
 		assertTrue(i1.getMonto().equals(new BigDecimal("100.00")));
 		
-		assertTrue(i2.getId().equals(2));
-		assertTrue(i2.getFecha().equals("2016-12-09 00:00:00.000000"));
+		assertTrue(i2.getId().equals(new Integer(2)));
+		assertTrue(i2.getFecha().equals("2016-12-09"));
 		assertTrue(i2.getId_Rubro().equals(2));
 		assertTrue(i2.getDescripcion().equals("sarasa"));
 		assertTrue(i2.getMonto().equals(new BigDecimal("100.24")));
@@ -63,9 +65,9 @@ public class DAOMovimientoTest {
 		
 		resultado=(ObservableList<Movimiento>) daoMov.getMovimientos();
 		
-		assertTrue(resultado.contains(new Movimiento(1 ,"2016-12-09 00:00:00.000000", 1, "pago", new BigDecimal("100.00"), "Arturo")));
-		assertTrue(resultado.contains(new Movimiento(2 ,"2016-12-09 00:00:00.000000", 2, "sarasa", new BigDecimal("100.24"), "Roman")));
-		assertTrue(resultado.contains(new Movimiento(3 ,"2016-12-09 00:00:00.000000", 3, "sarasa", new BigDecimal("100.24"), "Marcelo")));
+		assertTrue(resultado.contains(new Movimiento(1 ,"2016-12-09", 1, "pago", new BigDecimal("100.00"), "Arturo")));
+		assertTrue(resultado.contains(new Movimiento(2 ,"2016-12-09", 2, "sarasa", new BigDecimal("100.24"), "Roman")));
+		assertTrue(resultado.contains(new Movimiento(3 ,"2016-12-09", 3, "sarasa", new BigDecimal("100.24"), "Marcelo")));
 		
 		daoMov.eliminarMovimiento(1);
 		daoMov.eliminarMovimiento(2);
@@ -253,9 +255,9 @@ public class DAOMovimientoTest {
 		resultado=(ObservableList<Movimiento>)daoMov.getMovimientosDescripcionEntre("si", "2016-12-08", "2016-12-10");
 		
 		assertTrue(resultado.size()==3);
-		assertTrue(resultado.get(0).equals(new Movimiento(2 ,"2016-12-08 00:00:00.000000", 4, "primerosi", new BigDecimal("100.24"),"Rodrigo")));
-		assertTrue(resultado.get(1).equals(new Movimiento(3 ,"2016-12-09 00:00:00.000000", 3, "nodasidas", new BigDecimal("100.24"),"Marcelo")));
-		assertTrue(resultado.get(2).equals(new Movimiento(4 ,"2016-12-10 00:00:00.000000", 4, "segundosi", new BigDecimal("100.24"),"Rodrigo")));
+		assertTrue(resultado.get(0).equals(new Movimiento(2 ,"2016-12-08", 4, "primerosi", new BigDecimal("100.24"),"Rodrigo")));
+		assertTrue(resultado.get(1).equals(new Movimiento(3 ,"2016-12-09", 3, "nodasidas", new BigDecimal("100.24"),"Marcelo")));
+		assertTrue(resultado.get(2).equals(new Movimiento(4 ,"2016-12-10", 4, "segundosi", new BigDecimal("100.24"),"Rodrigo")));
 		
 		BigDecimal suma= daoMov.getMovimientosDescripcionEntreSuma("si", "2016-12-08", "2016-12-10");
 		assertEquals(suma, new BigDecimal("300.72").setScale(2));
@@ -274,8 +276,8 @@ public class DAOMovimientoTest {
 		resultado=(ObservableList<Movimiento>)daoMov.getMovimientosIdRubroEntre(4, "2016-12-07", "2016-12-11");
 	
 		assertTrue(resultado.size()==2);
-		assertTrue(resultado.get(0).equals(new Movimiento(2 ,"2016-12-08 00:00:00.000000", 4, "primerosi", new BigDecimal("100.24"), "Rodrigo")));
-		assertTrue(resultado.get(1).equals(new Movimiento(4 ,"2016-12-10 00:00:00.000000", 4, "segundosi", new BigDecimal("100.24"),"Rodrigo")));
+		assertTrue(resultado.get(0).equals(new Movimiento(2 ,"2016-12-08", 4, "primerosi", new BigDecimal("100.24"), "Rodrigo")));
+		assertTrue(resultado.get(1).equals(new Movimiento(4 ,"2016-12-10", 4, "segundosi", new BigDecimal("100.24"),"Rodrigo")));
 		
 		BigDecimal suma = daoMov.getMovimientosIdRubroEntreSuma(4, "2016-12-07", "2016-12-11");
 		
@@ -294,8 +296,8 @@ public class DAOMovimientoTest {
 		
 		resultado=(ObservableList<Movimiento>)daoMov.getMovimientosIdRubroDescripcion(4, "si");
 		
-		assertTrue(resultado.get(0).equals(new Movimiento(2 ,"2016-12-08 00:00:00.000000", 4, "primerosi", new BigDecimal("100.24"), "Rodrigo")));
-		assertTrue(resultado.get(1).equals(new Movimiento(4 ,"2016-12-10 00:00:00.000000", 4, "segundosi", new BigDecimal("100.24"),"Rodrigo")));
+		assertTrue(resultado.get(0).equals(new Movimiento(2 ,"2016-12-08", 4, "primerosi", new BigDecimal("100.24"), "Rodrigo")));
+		assertTrue(resultado.get(1).equals(new Movimiento(4 ,"2016-12-10", 4, "segundosi", new BigDecimal("100.24"),"Rodrigo")));
 		
 		BigDecimal suma=daoMov.getMovimientosIdRubroDescripcionSuma(4, "si");
 		assertEquals(suma, new BigDecimal("200.48").setScale(2));
@@ -314,7 +316,7 @@ public class DAOMovimientoTest {
 		resultado=(ObservableList<Movimiento>)daoMov.getMovimientosIdRubroDescripcionEntre(4, "si", "2016-12-09", "2016-12-11");
 
 		assertTrue(resultado.size()==1);
-		assertTrue(resultado.get(0).equals(new Movimiento(4 ,"2016-12-10 00:00:00.000000", 4, "segundosi", new BigDecimal("100.24"),"Rodrigo")));
+		assertTrue(resultado.get(0).equals(new Movimiento(4 ,"2016-12-10", 4, "segundosi", new BigDecimal("100.24"),"Rodrigo")));
 		
 		BigDecimal suma=daoMov.getMovimientosIdRubroDescripcionEntreSuma(4, "si", "2016-12-09", "2016-12-11");
 		assertEquals(suma, new BigDecimal("100.24").setScale(2));
@@ -325,14 +327,42 @@ public class DAOMovimientoTest {
 	{
 		try
 		{
-			Statement	st =  new ConexionAccess("jdbc:ucanaccess://bdMock.accdb").getConnection().createStatement();
+			Statement	st = new ConexionMaria().getConexionTest().createStatement();
 			st.executeUpdate("DELETE from Ingresos");
+			st.executeUpdate("DELETE from ClientesMock");
 		} 
 		catch (SQLException e) 
 		{
 			e.printStackTrace();
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	@Before
+	public void borrarTodoAntes()
+	{
+		try
+		{
+			Statement	st = new ConexionMaria().getConexionTest().createStatement();
+			st.executeUpdate("DELETE from Ingresos");
+			st.executeUpdate("DELETE from ClientesMock");
+			this.agregarClientes();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	private void agregarClientes() throws SQLException {
+		DAORubroImpl daoClientes=new DAORubroImpl(new ConexionMaria().getConexionTest(), "ClientesMock");
+		daoClientes.agregarClienteMock(new Rubro(1, "Arturo", "4455658", "456465", "deidelson@algo", "danilo.iede", "la pinta"));
+		daoClientes.agregarClienteMock(new Rubro(2, "Roman", "4455658", "456465", "deidelson@algo", "danilo.iede", "la pinta"));
+		daoClientes.agregarClienteMock(new Rubro(3, "Marcelo", "4455658", "456465", "deidelson@algo", "danilo.iede", "la pinta"));
+		daoClientes.agregarClienteMock(new Rubro(4, "Rodrigo", "4455658", "456465", "deidelson@algo", "danilo.iede", "la pinta"));
+		daoClientes.agregarClienteMock(new Rubro(5, "Dinio", "4455658", "456465", "deidelson@algo", "danilo.iede", "la pinta"));
+		daoClientes.agregarClienteMock(new Rubro(6, "Messi", "4455658", "456465", "deidelson@algo", "danilo.iede", "la pinta"));
 	}
 
 }

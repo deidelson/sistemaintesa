@@ -2,6 +2,7 @@ package presentacion;
 	
 import datos.Conectable;
 import datos.ConexionAccess;
+import datos.ConexionMaria;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import servicios.Propiedades;
@@ -36,7 +37,8 @@ public class Main extends Application {
 			//uso los setters del mismo
 			
 			//con=new ConexionAccess("jdbc:ucanaccess://bdPruebas.accdb");
-			con=new ConexionAccess("jdbc:ucanaccess://"+Propiedades.getPropiedades("ubicacion.bd"));
+			con=new ConexionMaria();
+			con.getConnection();
 			mainFormController.setearConexion(con);
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
